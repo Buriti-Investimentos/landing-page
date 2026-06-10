@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vertica | Gestão de Fundos Estruturados</title>
+    <!-- Fonte Google Inter para um visual premium e tecnológico -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- VARIÁVEIS DE DESIGN (DESIGN SYSTEM) --- */
+        :root {
+            --bg-dark: #062c26;
+            --bg-dark-card: #0b3c34;
+            --primary-mint: #2dd4bf;
+            --primary-hover: #14b8a6;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-dark: #1e293b;
+            --bg-light: #f8fafc;
+            --bg-light-card: #ffffff;
+            --font-sans: 'Inter', sans-serif;
+            --shadow: 0 10px 30px -15px rgba(0, 0, 0, 0.3);
+            --transition: all 0.3s ease;
+        }
+
+        /* --- CONFIGURAÇÕES GERAIS --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* --- BOTÕES --- */
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.8rem;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-mint);
+            color: var(--bg-dark);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            border: 2px solid var(--primary-mint);
+            color: var(--primary-mint);
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-mint);
+            color: var(--bg-dark);
+        }
+
+        /* --- NAVBAR --- */
+        nav {
+            background-color: var(--bg-dark);
+            padding: 1.5rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(45, 212, 191, 0.1);
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: var(--primary-mint);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            opacity: 0.85;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-mint);
+            opacity: 1;
+        }
+
+        /* --- HERO SECTION (CORRIGIDO) --- */
+        .hero {
+            background: linear-gradient(135deg, var(--bg-dark) 0%, #031714 100%);
+            color: var(--text-main);
+            padding: 11rem 0 7rem 0; /* Ajustado para dar espaço seguro sob o menu fixo */
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -20%;
+            left: -10%;
+            width: 50%;
+            height: 80%;
+            background: radial-gradient(circle, rgba(45, 212, 191, 0.08) 0%, transparent 70%);
+            z-index: 1;
+        }
+
+        .hero .container {
+            position: relative;
+            z-index: 2;
+            max-width: 900px; /* Alinhamento centralizado mais elegante */
+        }
+
+        .badge {
+            background-color: rgba(45, 212, 191, 0.1);
+            color: var(--primary-mint);
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(45, 212, 191, 0.2);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+            color: var(--text-main);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto 3rem auto;
+            font-weight: 300;
+        }
+
+        .hero-tags {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 5rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 2.5rem;
+        }
+
+        .hero-tag-item {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .hero-tag-item strong {
+            color: var(--primary-mint);
+        }
+
+        /* --- SEÇÃO PROBLEMA VS SOLUÇÃO --- */
+        .problem-solution {
+            padding: 6rem 0;
+            background-color: #ffffff;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.2rem;
+            color: var(--bg-dark);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        .section-header p {
+            color: #64748b;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .grid-problem {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card-problem {
+            background: var(--bg-light);
+            padding: 2.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #ef4444;
+            box-shadow: var(--shadow);
+        }
+
+        .card-problem h3 {
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            color: var(--bg-dark);
+        }
+
+        /* --- SEÇÃO PRODUTO (ONE-STOP SHOP) --- */
+        .products {
+            padding: 6rem 0;
+            background-color: var(--bg-light);
+        }
+
+        .grid-products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 2.5rem;
+            margin-top: 2rem;
+        }
+
+        .card-product {
+            background-color: var(--bg-light-card);
+            border-radius: 12px;
+            padding: 3rem;
+            box-shadow: 0 20px 40px -15px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.03);
+            transition: var(--transition);
+        }
+
+        .card-product:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 50px -15px rgba(0,0,0,0.1);
+        }
+
+        .product-badge {
+            background: var(--bg-dark);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .card-product h3 {
+            font-size: 1.8rem;
+            color: var(--bg-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .product-sub {
+            color: var(--primary-hover);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .product-list {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+
+        .product-list li {
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-left: 1.5rem;
+            color: #475569;
+        }
+
+        .product-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--primary-hover);
+            font-weight: bold;
+        }
+
+        /* --- SEÇÃO DIFERENCIAIS --- */
+        .features {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            padding: 6rem 0;
+        }
+
+        .features .section-header h2 {
+            color: var(--text-main);
+        }
+
+        .grid-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .card-feature {
+            background-color: var(--bg-dark-card);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: var(--transition);
+        }
+
+        .card-feature h4 {
+            font-size: 1.2rem;
+            color: var(--primary-mint);
+            margin-bottom: 0.8rem;
+        }
+
+        .card-feature p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* --- SEÇÃO INDICADORES --- */
+        .metrics {
+            padding: 6rem 0;
+            background-color: #ffffff;
+            text-align: center;
+        }
+
+        .grid-metrics {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .metric-item h2 {
+            font-size: 3.5rem;
+            color: var(--bg-dark);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-item p {
+            color: #64748b;
+            font-weight: 500;
+            max-width: 250px;
+            margin: 0 auto;
+        }
+
+        /* --- FOOTER CTA --- */
+        footer {
+            background: linear-gradient(135deg, #031714 0%, var(--bg-dark) 100%);
+            color: var(--text-main);
+            padding: 5rem 0 3rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(45, 212, 191, 0.1);
+        }
+
+        footer h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            letter-spacing: -1px;
+        }
+
+        footer p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-bottom {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.85rem;
+            color: #475569;
+        }
+
+        /* --- RESPONSIVIDADE --- */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            .nav-links { display: none; } 
+            .grid-products { grid-template-columns: 1fr; }
+            .grid-metrics { flex-direction: column; gap: 2.5rem; }
+            .hero-tags { flex-direction: column; gap: 1rem; align-items: center; margin-top: 3rem;}
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav>
+        <div class="container">
+            <div class="logo">vertica<span>.</span></div>
+            <ul class="nav-links">
+                <li><a href="#problema">O Problema</a></li>
+                <li><a href="#solucao">Plataforma</a></li>
+                <li><a href="#diferenciais">Diferenciais</a></li>
+                <li><a href="#indicadores">Resultados</a></li>
+                <li><a href="#contato" class="btn btn-outline">Falar com Especialista</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION (FIXED & CENTRED) -->
+    <header class="hero">
+        <div class="container">
+            <span class="badge">Apresentação Institucional 2026</span>
+            <h1>A nova referência em<br>gestão de fundos estruturados</h1>
+            <p>Software proprietário + backoffice as a service integrados em uma única plataforma para eliminar a fricção da sua operação.</p>
+            <a href="#contato" class="btn btn-primary">Agendar Demonstração</a>
+            
+            <div class="hero-tags">
+                <div class="hero-tag-item"><strong>✓</strong> One-Stop Shop</div>
+                <div class="hero-tag-item"><strong>✓</strong> Tecnologia</div>
+                <div class="hero-tag-item"><strong>✓</strong> Solidez</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- SEÇÃO PROBLEMA -->
+    <section id="problema" class="problem-solution">
+        <div class="container">
+            <div class="section-header">
+                <h2>Gestoras gastam demais para operar o básico</h2>
+                <p>O modelo tradicional consome margens e fragmenta a eficiência das equipes de gestão.</p>
+            </div>
+            <div class="grid-problem">
+                <div class="card-problem">
+                    <h3>Custos Elevados</h3>
+                    <p>Licenças de software somadas a taxas de backoffice consomem parcela significativa da taxa de administração.</p>
+                </div>
+                <div class="card-problem">
+                    <h3>Soluções Fragmentadas</h3>
+                    <p>Cada fornecedor resolve apenas uma parte do problema, obrigando o gestor a integrar e auditar múltiplos sistemas.</p>
+                </div>
+                <div class="card-problem">
+                    <h3>Atendimento Frio</h3>
+                    <p>Suporte genérico e impessoal, desconhecido quanto à realidade específica da gestora e dos fundos estruturados.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO PRODUTO (SOLUÇÃO) -->
+    <section id="solucao" class="products">
+        <div class="container">
+            <div class="section-header">
+                <h2>Uma plataforma, zero fricção</h2>
+                <p>O software e o serviço que sua gestora precisa, operados pela mesma equipe, sob uma única interface.</p>
+            </div>
+            
+            <div class="grid-products">
+                <!-- PRODUTO 1 -->
+                <div class="card-product">
+                    <span class="product-badge">Produto</span>
+                    <h3>Vertica Core</h3>
+                    <p class="product-sub">Software de gestão</p>
+                    <hr style="opacity: 0.1; margin-bottom: 1rem;">
+                    <ul class="product-list">
+                        <li>Controle completo de carteiras e cotas</li>
+                        <li>Marcação a mercado e contabilidade do fundo</li>
+                        <li>Integração nativa com custódia, administração e CVM</li>
+                        <li>Dashboards inteligentes para gestor, cotista e auditor</li>
+                    </ul>
+                </div>
+
+                <!-- PRODUTO 2 -->
+                <div class="card-product">
+                    <span class="product-badge">Serviço</span>
+                    <h3>Vertica Ops</h3>
+                    <p class="product-sub">Gestão as a service</p>
+                    <hr style="opacity: 0.1; margin-bottom: 1rem;">
+                    <ul class="product-list">
+                        <li>Backoffice terceirizado com time dedicado especializado</li>
+                        <li>Conciliações diárias, compliance estruturado e reporting mensal</li>
+                        <li>Atendimento profundamente humano e consultivo</li>
+                        <li>Implantação acompanhada de ponta a ponta</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO DIFERENCIAIS -->
+    <section id="diferenciais" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Infraestrutura invisível para sua gestora crescer</h2>
+                <p style="color: var(--text-muted);">Por que gestores independentes e boutiques de fundos escolhem a Vertica.</p>
+            </div>
+            
+            <div class="grid-features">
+                <div class="card-feature">
+                    <h4>Integração Real</h4>
+                    <p>Software e operação no mesmo fluxo, sem handoffs lentos entre múltiplos fornecedores.</p>
+                </div>
+                <div class="card-feature">
+                    <h4>Atendimento Próximo</h4>
+                    <p>Times seniores e especializados em fundos estruturados jogando ao lado do gestor.</p>
+                </div>
+                <div class="card-feature">
+                    <h4>Compliance Nativo</h4>
+                    <p>Regras, travas e controles regulatórios CVM já embarcados diretamente no código do software.</p>
+                </div>
+                <div class="card-feature">
+                    <h4>Custo Previsível</h4>
+                    <p>Modelo de preço claro e transparente, sem surpresas de consumo ou taxas extras ocultas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO INDICADORES -->
+    <section id="indicadores" class="metrics">
+        <div class="container">
+            <div class="section-header">
+                <h2>A solidez que valida nossa tecnologia</h2>
+                <p>Resultados expressivos impulsionando o mercado financeiro estruturado.</p>
+            </div>
+            
+            <div class="grid-metrics">
+                <div class="metric-item">
+                    <h2>+R$ 918M</h2>
+                    <p>Volume total originado em operações estruturadas e emissões de dívida.</p>
+                </div>
+                <div class="metric-item">
+                    <h2>3 + 1</h2>
+                    <p>Três gestores e uma DTVM operando ativamente na plataforma.</p>
+                </div>
+                <div class="metric-item">
+                    <h2>+R$ 1M</h2>
+                    <p>Faturamento anual consolidado via Vertica Ops e emissões.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER / CTA -->
+    <footer id="contato">
+        <div class="container">
+            <h2>Pronto para escalar seu AUM sem carregar o peso do backoffice?</h2>
+            <p>Descubra como a Vertica simplifica a gestão de fundos estruturados reduzindo custos e complexidade.</p>
+            <a href="mailto:contato@vertica.com.br" class="btn btn-primary" style="padding: 1rem 2.5rem; font-size: 1.1rem;">Falar com um Especialista</a>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 Vertica Tecnologia. Todos os direitos reservados. Segurança, Solidez e Tecnologia.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
